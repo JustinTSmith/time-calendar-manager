@@ -5,6 +5,12 @@
   "scripts": {
     "build": "turbo run build",
     "check": "turbo run check",
+    "db:start": "docker compose up -d postgres",
+    "db:status": "docker compose ps postgres",
+    "db:logs": "docker compose logs postgres",
+    "db:stop": "docker compose stop postgres",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d postgres",
     "db:generate": "pnpm --filter @time-calendar-manager/db db:generate",
     "db:migrate": "pnpm --filter @time-calendar-manager/db db:migrate",
     "db:studio": "pnpm --filter @time-calendar-manager/db db:studio"
