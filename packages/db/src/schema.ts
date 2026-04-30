@@ -125,6 +125,7 @@ export const tasks = pgTable(
     listId: uuid('list_id').references(() => taskLists.id, { onDelete: 'set null' }),
     source: varchar('source', { length: 50 }).notNull().default('manual'),
     title: text('title').notNull(),
+    notes: text('notes'),
     dueDate: timestamp('due_date', { withTimezone: true }),
     durationMinutes: integer('duration_minutes').notNull().default(30),
     priority: integer('priority').notNull().default(3),
