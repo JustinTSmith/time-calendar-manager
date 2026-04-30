@@ -5,3 +5,5 @@ dist/
 .env.local
 coverage/
 postgres-data/
+test-results/
+playwright-report/
