@@ -2,8 +2,23 @@
   "name": "@time-calendar-manager/api",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "node -e \"console.log('api build placeholder')\"",
-    "check": "node -e \"console.log('api check placeholder')\""
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "check": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.7.9",
+    "@hono/node-server": "^1.13.7",
+    "drizzle-orm": "^0.43.1",
+    "@time-calendar-manager/db": "workspace:*",
+    "@time-calendar-manager/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }

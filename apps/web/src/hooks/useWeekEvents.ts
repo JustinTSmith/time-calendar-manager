@@ -6,14 +6,14 @@ import type { CalendarEvent } from '@/types/calendar';
 export function useWeekEvents(
   weekStart: Date,
   weekEnd: Date,
-  visibleCalendarIds: string[],
+  visibleCalendarIds: Set<string>,
 ): { timedEvents: CalendarEvent[]; allDayEvents: CalendarEvent[] } {
   return useMemo(() => {
     const interval = { start: startOfDay(weekStart), end: endOfDay(weekEnd) };
 
     const inWeek = MOCK_EVENTS.filter(
       (e) =>
-        visibleCalendarIds.includes(e.calendarId) &&
+        visibleCalendarIds.has(e.calendarId) &&
         isWithinInterval(e.startAt, interval),
     );
 
