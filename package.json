@@ -1,0 +1,16 @@
+{
+  "name": "time-calendar-manager",
+  "private": true,
+  "packageManager": "pnpm@10.8.0",
+  "scripts": {
+    "build": "turbo run build",
+    "check": "turbo run check",
+    "db:generate": "pnpm --filter @time-calendar-manager/db db:generate",
+    "db:migrate": "pnpm --filter @time-calendar-manager/db db:migrate",
+    "db:studio": "pnpm --filter @time-calendar-manager/db db:studio"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.2",
+    "typescript": "^5.8.3"
+  }
+}
