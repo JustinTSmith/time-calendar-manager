@@ -3,7 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "node -e \"console.log('web build placeholder')\"",
-    "check": "node -e \"console.log('web check placeholder')\""
+    "build": "vite build",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "dev": "vite --port 3000",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
   }
 }
