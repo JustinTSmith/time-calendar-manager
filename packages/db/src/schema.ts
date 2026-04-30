@@ -100,6 +100,7 @@ export const events = pgTable(
     title: text('title').notNull(),
     startAt: timestamp('start_at', { withTimezone: true }).notNull(),
     endAt: timestamp('end_at', { withTimezone: true }).notNull(),
+    isAllDay: boolean('is_all_day').notNull().default(false),
     recurrenceRule: text('recurrence_rule'),
     attendees: jsonb('attendees').notNull().default(sql`'[]'::jsonb`),
     reminders: jsonb('reminders').notNull().default(sql`'[]'::jsonb`),
