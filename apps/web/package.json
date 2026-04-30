@@ -3,7 +3,27 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "node -e \"console.log('web build placeholder')\"",
-    "check": "node -e \"console.log('web check placeholder')\""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zustand": "^4.5.2",
+    "date-fns": "^3.6.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.8.3"
   }
 }
