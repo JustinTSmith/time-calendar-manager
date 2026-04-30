@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { isSameDay } from 'date-fns';
+import { isSameDay, startOfDay, setMinutes } from 'date-fns';
 import type { CalendarEvent } from '@/types/calendar';
 import { DayColumn } from './DayColumn';
 import { TimeGutter } from './TimeGutter';
@@ -11,9 +11,16 @@ interface ScrollableGridProps {
   days: Date[];
   timedEvents: CalendarEvent[];
   today: Date;
+  dragState?: {
+    isDragging: boolean;
+    activeDay: Date | null;
+    dropTime: Date | null;
+    taskTitle: string;
+    durationMinutes: number;
+  };
 }
 
-export function ScrollableGrid({ days, timedEvents, today }: ScrollableGridProps) {
+export function ScrollableGrid({ days, timedEvents, today, dragState }: ScrollableGridProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Scroll to 8am on initial render
@@ -33,6 +40,16 @@ export function ScrollableGrid({ days, timedEvents, today }: ScrollableGridProps
             day={day}
             isToday={isSameDay(day, today)}
             events={timedEvents}
+            dragState={
+              dragState?.isDragging && dragState.activeDay && isSameDay(dragState.activeDay, day)
+                ? {
+                    isOver: true,
+                    dropTime: dragState.dropTime,
+                    taskTitle: dragState.taskTitle,
+                    durationMinutes: dragState.durationMinutes,
+                  }
+                : undefined
+            }
           />
         ))}
       </div>
