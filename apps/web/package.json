@@ -1,9 +1,49 @@
 {
   "name": "@time-calendar-manager/web",
+  "version": "0.0.1",
   "private": true,
-  "version": "0.0.0",
   "scripts": {
-    "build": "node -e \"console.log('web build placeholder')\"",
-    "check": "node -e \"console.log('web check placeholder')\""
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "14.2.29",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@tanstack/react-query": "^5.72.2",
+    "axios": "^1.9.0",
+    "zustand": "^5.0.4",
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "socket.io-client": "^4.8.1",
+    "cmdk": "^1.1.1",
+    "lucide-react": "^0.511.0",
+    "next-themes": "^0.4.6",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
+    "react-day-picker": "^8.10.1",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-tabs": "^1.1.12",
+    "@radix-ui/react-toast": "^1.2.14",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-separator": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/react": "^18.3.22",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
   }
 }
