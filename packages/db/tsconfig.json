@@ -3,7 +3,13 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "./dist",
-    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
+    "composite": true
   },
-  "include": ["src/**/*.ts", "drizzle.config.ts"]
+  "include": ["src/**/*.ts", "drizzle.config.ts"],
+  "references": [
+    {
+      "path": "../types"
+    }
+  ]
 }

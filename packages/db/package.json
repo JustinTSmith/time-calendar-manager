@@ -8,6 +8,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "node -e \"console.log('db test placeholder')\"",
+    "lint": "node -e \"console.log('db lint placeholder')\"",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts"
