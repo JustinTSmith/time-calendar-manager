@@ -2,8 +2,27 @@
   "name": "@time-calendar-manager/web",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "node -e \"console.log('web build placeholder')\"",
-    "check": "node -e \"console.log('web check placeholder')\""
+    "build": "next build",
+    "check": "tsc --noEmit",
+    "dev": "next dev",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.71.0",
+    "@time-calendar-manager/db": "workspace:*",
+    "@time-calendar-manager/types": "workspace:*",
+    "next": "^15.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "socket.io-client": "^4.8.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.0"
   }
 }
