@@ -28,7 +28,16 @@ export default function CallbackPage() {
       .post<{ accessToken: string; user: { id: string; email: string; name: string; timezone: string } }>(
         `/auth/${provider}/callback`,
         { code, state }
-      )
+    const provider = state.startsWith('google')
+      ? 'google'
+      : state.startsWith('microsoft')
+        ? 'microsoft'
+        : null
+
+    if (!provider) {
+      setError('Unknown OAuth provider. Please try again.')
+      return
+    }
       .then((res) => {
         setAuth(res.data.user, res.data.accessToken)
         router.replace('/calendar')
