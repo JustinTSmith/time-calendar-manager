@@ -81,6 +81,7 @@ export const taskLists = pgTable(
     name: text('name').notNull(),
     color: varchar('color', { length: 20 }),
     isInbox: boolean('is_inbox').notNull().default(false),
+    archivedAt: timestamp('archived_at', { withTimezone: true }),
     createdAt,
   },
   (table) => [index('task_lists_user_id_idx').on(table.userId)],
@@ -123,6 +124,7 @@ export const tasks = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     listId: uuid('list_id').references(() => taskLists.id, { onDelete: 'set null' }),
+    parentTaskId: uuid('parent_task_id'),
     source: varchar('source', { length: 50 }).notNull().default('manual'),
     title: text('title').notNull(),
     dueDate: timestamp('due_date', { withTimezone: true }),
@@ -130,6 +132,8 @@ export const tasks = pgTable(
     priority: integer('priority').notNull().default(3),
     status: varchar('status', { length: 50 }).notNull().default('inbox'),
     tags: text('tags').array().notNull().default(sql`'{}'::text[]`),
+    sortOrder: integer('sort_order').notNull().default(0),
+    completedAt: timestamp('completed_at', { withTimezone: true }),
     scheduledEventId: uuid('scheduled_event_id').references(() => events.id, { onDelete: 'set null' }),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
     createdAt,
@@ -138,6 +142,7 @@ export const tasks = pgTable(
     index('tasks_user_id_status_idx').on(table.userId, table.status),
     index('tasks_user_id_due_date_idx').on(table.userId, table.dueDate),
     index('tasks_list_id_idx').on(table.listId),
+    index('tasks_parent_task_id_idx').on(table.parentTaskId),
     uniqueIndex('tasks_scheduled_event_id_idx').on(table.scheduledEventId),
   ],
 );
@@ -216,6 +221,12 @@ export const tasksRelations = relations(tasks, ({ one, many }) => ({
     fields: [tasks.listId],
     references: [taskLists.id],
   }),
+  parent: one(tasks, {
+    fields: [tasks.parentTaskId],
+    references: [tasks.id],
+    relationName: 'subtasks',
+  }),
+  subtasks: many(tasks, { relationName: 'subtasks' }),
   scheduledEvent: one(events, {
     fields: [tasks.scheduledEventId],
     references: [events.id],
