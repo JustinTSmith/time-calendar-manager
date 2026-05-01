@@ -8,6 +8,13 @@
       "when": 1777519385043,
       "tag": "0000_useful_logan",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777620000000,
+      "tag": "0001_add_calendar_account_fields",
+      "breakpoints": true
     }
   ]
 }
