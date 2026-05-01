@@ -29,6 +29,12 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#4285F4',
     isTimeBlock: false,
     isAllDay: false,
+    location: 'Conference Room A',
+    description: 'Daily team standup meeting',
+    attendees: [
+      { email: 'alice@example.com', name: 'Alice', status: 'accepted' },
+      { email: 'bob@example.com', name: 'Bob', status: 'accepted' },
+    ],
   },
   {
     id: 'e2',
@@ -39,6 +45,8 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#4285F4',
     isTimeBlock: false,
     isAllDay: false,
+    location: 'Zoom',
+    videoConferencing: 'zoom',
   },
   {
     id: 'e3',
@@ -60,6 +68,7 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#4285F4',
     isTimeBlock: false,
     isAllDay: true,
+    location: 'Offsite Venue',
   },
   {
     id: 'e5',
@@ -70,6 +79,7 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#4285F4',
     isTimeBlock: false,
     isAllDay: false,
+    reminders: [{ method: 'notification', minutesBefore: 10 }],
   },
   // Wednesday: triple overlap — tests the column algorithm
   {
@@ -113,6 +123,7 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     isTimeBlock: false,
     isAllDay: false,
   },
+  // Thursday: recurring weekly lunch
   {
     id: 'e10',
     title: 'Lunch',
@@ -122,6 +133,8 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#34A853',
     isTimeBlock: false,
     isAllDay: false,
+    recurrenceRule: 'FREQ=WEEKLY;BYDAY=TH',
+    recurrenceType: 'weekly',
   },
   // Friday: a longer block
   {
@@ -133,6 +146,12 @@ export const MOCK_EVENTS: CalendarEvent[] = [
     color: '#4285F4',
     isTimeBlock: false,
     isAllDay: false,
+    location: 'Conference Room B',
+    description: 'Weekly sprint planning with the team',
+    videoConferencing: 'google-meet',
+    attendees: [
+      { email: 'team@example.com', name: 'Engineering Team', status: 'needsAction' },
+    ],
   },
   {
     id: 'e12',
