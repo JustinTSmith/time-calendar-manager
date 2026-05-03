@@ -1,0 +1,1 @@
+ALTER TABLE "calendar_accounts" ADD COLUMN "email" varchar(320);

@@ -43,6 +43,13 @@
       "when": 1746057600000,
       "tag": "0005_tasks_api_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1777586526742,
+      "tag": "0006_tan_maximus",
+      "breakpoints": true
     }
   ]
 }

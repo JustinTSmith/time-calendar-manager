@@ -46,6 +46,7 @@ export const calendarAccounts = pgTable(
       .references(() => users.id, { onDelete: 'cascade' }),
     provider: varchar('provider', { length: 50 }).notNull(),
     providerAccountId: text('provider_account_id'),
+    email: varchar('email', { length: 320 }),
     accessTokenEncrypted: text('access_token_encrypted').notNull(),
     refreshTokenEncrypted: text('refresh_token_encrypted').notNull(),
     tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true }),
