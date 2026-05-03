@@ -35,6 +35,8 @@ export const users = pgTable(
   ],
 );
 
+const updatedAt = timestamp('updated_at', { withTimezone: true }).defaultNow().notNull();
+
 export const calendarAccounts = pgTable(
   'calendar_accounts',
   {
@@ -46,12 +48,19 @@ export const calendarAccounts = pgTable(
     providerAccountId: text('provider_account_id'),
     accessTokenEncrypted: text('access_token_encrypted').notNull(),
     refreshTokenEncrypted: text('refresh_token_encrypted').notNull(),
+    tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true }),
     syncCursor: text('sync_cursor'),
+    subscriptionId: text('subscription_id'),
+    subscriptionExpiresAt: timestamp('subscription_expires_at', { withTimezone: true }),
     status: varchar('status', { length: 50 }).notNull().default('active'),
     lastSyncAt: timestamp('last_sync_at', { withTimezone: true }),
     createdAt,
+    updatedAt,
   },
-  (table) => [index('calendar_accounts_user_id_idx').on(table.userId)],
+  (table) => [
+    index('calendar_accounts_user_id_idx').on(table.userId),
+    index('calendar_accounts_subscription_id_idx').on(table.subscriptionId),
+  ],
 );
 
 export const calendars = pgTable(
@@ -71,6 +80,7 @@ export const calendars = pgTable(
     channelExpiration: timestamp('channel_expiration', { withTimezone: true }),
     resourceId: text('resource_id'),
     createdAt,
+    updatedAt,
   },
   (table) => [
     index('calendars_account_id_idx').on(table.accountId),
@@ -114,6 +124,7 @@ export const events = pgTable(
     taskId: uuid('task_id'),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
     createdAt,
+    updatedAt,
   },
   (table) => [
     index('events_calendar_id_idx').on(table.calendarId),

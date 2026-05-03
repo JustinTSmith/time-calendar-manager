@@ -7,6 +7,7 @@ import { authRoutes } from './routes/auth.js';
 import { eventsRoutes } from './routes/events.js';
 import { calendarsRoutes } from './routes/calendars.js';
 import { webhookRoutes } from './routes/webhooks.js';
+import { calendarAccountsRoutes } from './routes/calendar-accounts.js';
 
 const app = Fastify({
   logger: true,
@@ -30,6 +31,7 @@ await app.register(authRoutes);
 await app.register(eventsRoutes);
 await app.register(calendarsRoutes);
 await app.register(webhookRoutes);
+await app.register(calendarAccountsRoutes);
 
 // Initialize Socket.io
 initializeSocket(app);
