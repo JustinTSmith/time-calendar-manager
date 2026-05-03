@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   calendarAccounts,
   calendars,
@@ -78,11 +79,52 @@ router.get('/', async (req, res) => {
 
 // POST /api/v1/tasks
 router.post('/', async (req, res) => {
+=======
+import { Router } from 'express'
+import { z } from 'zod'
+import { randomUUID } from 'crypto'
+
+export type TaskStatus = 'inbox' | 'scheduled' | 'done'
+
+export interface StoredTask {
+  id: string
+  title: string
+  status: TaskStatus
+  listId?: string
+  dueDate?: string
+  deletedAt?: string
+  subtasks?: StoredTask[]
+}
+
+export const tasksStore: StoredTask[] = []
+
+const createTaskSchema = z.object({
+  title: z.string().min(1),
+  listId: z.string().uuid().optional(),
+  dueDate: z.string().optional()
+})
+
+const updateTaskSchema = z.object({
+  title: z.string().min(1).optional(),
+  status: z.enum(['inbox', 'scheduled', 'done']).optional(),
+  dueDate: z.string().optional(),
+  subtasks: z.array(z.object({ title: z.string().min(1) })).optional()
+})
+
+const router = Router()
+
+router.get('/', (req, res) => {
+  res.json(tasksStore.filter(t => !t.deletedAt))
+})
+
+router.post('/', (req, res) => {
+>>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
   const result = createTaskSchema.safeParse(req.body)
   if (!result.success) {
     res.status(400).json({ error: 'Validation failed', issues: result.error.issues })
     return
   }
+<<<<<<< HEAD
 
   const { listId, dueDate, ...rest } = result.data
 
@@ -130,11 +172,25 @@ router.post('/', async (req, res) => {
 
 // PATCH /api/v1/tasks/:id
 router.patch('/:id', async (req, res) => {
+=======
+  const task: StoredTask = { id: randomUUID(), status: 'inbox', ...result.data }
+  tasksStore.push(task)
+  res.status(201).json(task)
+})
+
+router.patch('/:id', (req, res) => {
+  const task = tasksStore.find(t => t.id === req.params['id'] && !t.deletedAt)
+  if (!task) {
+    res.status(404).json({ error: 'Not found' })
+    return
+  }
+>>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
   const result = updateTaskSchema.safeParse(req.body)
   if (!result.success) {
     res.status(400).json({ error: 'Validation failed', issues: result.error.issues })
     return
   }
+<<<<<<< HEAD
 
   const { status, dueDate, ...rest } = result.data
   const updates: Record<string, unknown> = { ...rest }
@@ -292,6 +348,28 @@ router.post('/:id/schedule', async (req, res) => {
   } catch {
     res.status(500).json({ error: 'Failed to schedule task' })
   }
+=======
+  const { subtasks, ...fields } = result.data
+  Object.assign(task, fields)
+  if (subtasks?.length) {
+    task.subtasks = subtasks.map(s => ({
+      id: randomUUID(),
+      title: s.title,
+      status: 'inbox' as TaskStatus
+    }))
+  }
+  res.json(task)
+})
+
+router.delete('/:id', (req, res) => {
+  const task = tasksStore.find(t => t.id === req.params['id'])
+  if (!task) {
+    res.status(404).json({ error: 'Not found' })
+    return
+  }
+  task.deletedAt = new Date().toISOString()
+  res.json({ success: true })
+>>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
 })
 
 export default router

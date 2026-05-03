@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "check": "turbo run check",
+<<<<<<< HEAD
     "dev": "turbo run dev",
     "test": "turbo run test",
     "lint": "turbo run lint",
@@ -15,6 +16,10 @@
     "db:stop": "docker compose stop postgres",
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d postgres",
+=======
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+>>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
     "db:generate": "pnpm --filter @time-calendar-manager/db db:generate",
     "db:migrate": "pnpm --filter @time-calendar-manager/db db:migrate",
     "db:studio": "pnpm --filter @time-calendar-manager/db db:studio"

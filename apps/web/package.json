@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
@@ -108,5 +109,16 @@
     "tailwindcss": "^3.4.3",
 >>>>>>> origin/blocks/jus-24-task-panel-sidebar-task-list-with-crud-and-drag-handles
     "typescript": "^5.8.3"
+=======
+    "build": "vite build",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "dev": "vite --port 3000",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4"
+>>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
   }
 }
