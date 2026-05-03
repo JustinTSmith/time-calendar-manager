@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:15
+    image: postgres:15-alpine
     container_name: time-calendar-manager-postgres
     restart: unless-stopped
     environment:
@@ -26,6 +26,21 @@ services:
       - redis-data:/data
     command: redis-server --appendonly yes
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: time-calendar-manager-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tasktime.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    profiles:
+      - tools
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
 volumes:
   postgres-data:
   redis-data:
+  pgadmin-data:
