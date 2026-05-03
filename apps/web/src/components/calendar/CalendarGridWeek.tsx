@@ -11,15 +11,12 @@ import { ViewToggle } from './ViewToggle';
 import { WeekHeader } from './WeekHeader';
 import { AllDayZone } from './AllDayZone';
 import { ScrollableGrid } from './ScrollableGrid';
-<<<<<<< HEAD
 import { EventQuickCreate } from './EventQuickCreate';
 import { EventModal } from './EventModal';
-=======
 import { TaskPanel } from '@/components/tasks/TaskPanel';
 import { MOCK_TASKS } from '@/data/mockTasks';
 import type { Task } from '@/types/task';
 import type { CalendarEvent } from '@/types/calendar';
->>>>>>> origin/blocks/jus-25-drag-task-calendar-time-blocking-drop-handler
 
 const TODAY = new Date();
 
@@ -38,7 +35,7 @@ export function CalendarGridWeek() {
   } = useCalendarStore();
 
   const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
+  const [localEvents, setLocalEvents] = useState<CalendarEvent[]>([]);
 
   const weekStart = useMemo(() => getWeekStart(currentDate), [currentDate]);
   const weekEnd = useMemo(() => getWeekEnd(currentDate), [currentDate]);
@@ -46,20 +43,16 @@ export function CalendarGridWeek() {
 
   const { timedEvents, allDayEvents } = useWeekEvents(weekStart, weekEnd, visibleCalendarIds);
 
-<<<<<<< HEAD
-  // Get the event being edited (if any)
   const editingEvent = selectedEventId
     ? events.find((e) => e.id === selectedEventId) || null
     : null;
-=======
-  // Combine mock events with created events
+
   const allTimedEvents = useMemo(() => {
-    return [...timedEvents, ...events];
-  }, [timedEvents, events]);
+    return [...timedEvents, ...localEvents];
+  }, [timedEvents, localEvents]);
 
   const handleEventCreated = useCallback((event: CalendarEvent) => {
-    setEvents((prev) => {
-      // If event exists, update it; otherwise add it
+    setLocalEvents((prev) => {
       const exists = prev.find((e) => e.id === event.id);
       if (exists) {
         return prev.map((e) => (e.id === event.id ? event : e));
@@ -78,25 +71,20 @@ export function CalendarGridWeek() {
     onTaskUpdated: handleTaskUpdated,
   });
 
-  // Configure sensors for drag and drop
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Require 8px movement before drag starts
+        distance: 8,
       },
     })
   );
->>>>>>> origin/blocks/jus-25-drag-task-calendar-time-blocking-drop-handler
 
   return (
     <DndContext sensors={sensors}>
       <div className="flex h-screen overflow-hidden bg-white">
-        {/* Task Panel */}
         <TaskPanel tasks={tasks} />
 
-        {/* Calendar Grid */}
         <div className="flex flex-1 flex-col">
-          {/* Top toolbar */}
           <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3 shrink-0">
             <WeekNavBar
               currentDate={currentDate}
@@ -107,13 +95,10 @@ export function CalendarGridWeek() {
             <ViewToggle current={view} onChange={setView} />
           </div>
 
-          {/* Column headers */}
           <WeekHeader days={days} today={TODAY} />
 
-          {/* All-day strip */}
           <AllDayZone days={days} allDayEvents={allDayEvents} />
 
-          {/* Scrollable timed grid */}
           <ScrollableGrid
             days={days}
             timedEvents={allTimedEvents}
@@ -122,25 +107,9 @@ export function CalendarGridWeek() {
           />
         </div>
       </div>
-<<<<<<< HEAD
 
-      {/* Column headers */}
-      <WeekHeader days={days} today={TODAY} />
-
-      {/* All-day strip */}
-      <AllDayZone days={days} allDayEvents={allDayEvents} />
-
-      {/* Scrollable timed grid */}
-      <ScrollableGrid days={days} timedEvents={timedEvents} today={TODAY} />
-
-      {/* Quick-create popover */}
       <EventQuickCreate />
-
-      {/* Full event modal */}
       <EventModal event={editingEvent} draftEvent={draftEvent} />
-    </div>
-=======
     </DndContext>
->>>>>>> origin/blocks/jus-25-drag-task-calendar-time-blocking-drop-handler
   );
 }

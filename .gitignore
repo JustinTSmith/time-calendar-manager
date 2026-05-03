@@ -5,9 +5,6 @@ dist/
 .env.local
 coverage/
 postgres-data/
-<<<<<<< HEAD
 redis-data/
-=======
 test-results/
 playwright-report/
->>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke

@@ -1,10 +1,7 @@
 'use client';
 
-<<<<<<< HEAD
 import { useCallback } from 'react';
-=======
 import { useDroppable } from '@dnd-kit/core';
->>>>>>> origin/blocks/jus-25-drag-task-calendar-time-blocking-drop-handler
 import { clsx } from 'clsx';
 import type { CalendarEvent } from '@/types/calendar';
 import type { PositionedEvent } from '@/types/calendar';
@@ -43,7 +40,6 @@ export function DayColumn({ day, isToday, events, dragState }: DayColumnProps) {
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      // Only handle clicks on the column background, not on event chips
       if ((e.target as HTMLElement).closest('[data-event-chip]')) return;
 
       const rect = e.currentTarget.getBoundingClientRect();
@@ -66,7 +62,6 @@ export function DayColumn({ day, isToday, events, dragState }: DayColumnProps) {
     [day, openQuickCreate, visibleCalendarIds]
   );
 
-  // Calculate ghost position if dragging over this column
   let ghostTop = 0;
   let ghostHeight = 0;
   let showGhost = false;
@@ -90,7 +85,6 @@ export function DayColumn({ day, isToday, events, dragState }: DayColumnProps) {
       style={{ height: TOTAL_HEIGHT }}
       onClick={handleClick}
     >
-      {/* Hour gridlines */}
       {HOURS.map((hour) => (
         <div
           key={hour}
@@ -99,7 +93,6 @@ export function DayColumn({ day, isToday, events, dragState }: DayColumnProps) {
         />
       ))}
 
-      {/* Drop ghost */}
       {showGhost && (
         <DropGhost
           top={ghostTop}
@@ -109,7 +102,6 @@ export function DayColumn({ day, isToday, events, dragState }: DayColumnProps) {
         />
       )}
 
-      {/* Positioned events */}
       {positioned.map((p) => (
         <div key={p.event.id} data-event-chip>
           <EventChip

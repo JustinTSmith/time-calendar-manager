@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import { db } from '@time-calendar-manager/db';
 import { users } from '@time-calendar-manager/db';
@@ -23,10 +22,8 @@ export async function authenticateRequest(
       return;
     }
 
-    const token = authHeader.slice(7);
     const decoded = await request.jwtVerify<{ userId: string }>();
-    
-    // Fetch user from database
+
     const user = await db.query.users.findFirst({
       where: eq(users.id, decoded.userId),
     });
@@ -44,15 +41,4 @@ export async function authenticateRequest(
   } catch (err) {
     reply.status(401).send({ error: 'Invalid token' });
   }
-=======
-import type { Request, Response, NextFunction } from 'express'
-
-export function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  const authHeader = req.headers.authorization
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    res.status(401).json({ error: 'Unauthorized' })
-    return
-  }
-  next()
->>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
 }

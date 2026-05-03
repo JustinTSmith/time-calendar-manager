@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-<<<<<<< HEAD
-=======
 
 @layer base {
   :root {
@@ -59,4 +57,3 @@
     @apply bg-background text-foreground;
   }
 }
->>>>>>> origin/blocks/jus-24-task-panel-sidebar-task-list-with-crud-and-drag-handles

@@ -1,19 +1,17 @@
 {
   "name": "@time-calendar-manager/web",
-<<<<<<< HEAD
   "version": "0.0.1",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
-    "check": "tsc --noEmit"
+    "lint": "next lint",
+    "check": "tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@dnd-kit/core": "^6.3.1",
-<<<<<<< HEAD
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.10.0",
@@ -43,82 +41,15 @@
     "tailwind-merge": "^2.6.0",
     "zod": "^3.25.76",
     "zustand": "^5.0.4"
-=======
-    "@dnd-kit/utilities": "^3.2.2",
-=======
->>>>>>> origin/blocks/jus-27-settings-page-working-hours-editor-and-theme-toggle
-    "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "next": "14.2.29",
-    "next-themes": "^0.4.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.3.0",
-    "zustand": "^4.5.2"
-<<<<<<< HEAD
->>>>>>> origin/blocks/jus-25-drag-task-calendar-time-blocking-drop-handler
-=======
->>>>>>> origin/blocks/jus-27-settings-page-working-hours-editor-and-theme-toggle
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@types/node": "^22.15.3",
     "@types/react": "^18.3.22",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-=======
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/utilities": "^3.2.2",
-    "@radix-ui/react-checkbox": "^1.0.4",
-    "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-dropdown-menu": "^2.0.6",
-    "@radix-ui/react-label": "^2.0.2",
-    "@radix-ui/react-select": "^2.0.0",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@tanstack/react-query": "^5.32.0",
-    "@time-calendar-manager/db": "workspace:*",
-    "drizzle-orm": "^0.43.1",
-    "postgres": "^3.4.4",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "lucide-react": "^0.378.0",
-    "next": "14.2.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.8",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3",
->>>>>>> origin/blocks/jus-24-task-panel-sidebar-task-list-with-crud-and-drag-handles
     "typescript": "^5.8.3"
-=======
-    "build": "vite build",
-    "check": "tsc -p tsconfig.json --noEmit",
-    "dev": "vite --port 3000",
-    "test:e2e": "playwright test"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.52.0",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.4"
->>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
   }
 }

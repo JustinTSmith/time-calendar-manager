@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import request from 'supertest'
 import { createApp } from '../app'
-import { tasksStore } from './tasks'
+import { tasksStore } from './tasks.stub'
 
 const app = createApp()
 

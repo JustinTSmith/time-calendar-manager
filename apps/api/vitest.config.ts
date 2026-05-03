@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-<<<<<<< HEAD
+    environment: 'node',
     coverage: {
       provider: 'v8',
       thresholds: {
@@ -10,12 +10,4 @@ export default defineConfig({
       },
     },
   },
-=======
-    environment: 'node',
-    coverage: {
-      provider: 'v8',
-      thresholds: { lines: 80 }
-    }
-  }
->>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
 })

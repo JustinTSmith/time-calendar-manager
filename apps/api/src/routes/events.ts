@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import type { FastifyInstance } from 'fastify';
 import { db, events, calendars, calendarAccounts } from '@time-calendar-manager/db';
 import { eq, and, gte, lte, isNull } from 'drizzle-orm';
@@ -6,10 +5,8 @@ import { authenticateRequest, AuthenticatedRequest } from '../middleware/auth.js
 import { queueEventWrite } from '../lib/queue.js';
 
 export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
-  // Apply auth middleware to all routes
   fastify.addHook('onRequest', authenticateRequest);
 
-  // List events
   fastify.get('/api/v1/events', async (request, reply) => {
     const user = (request as AuthenticatedRequest).user;
     const { start, end, calendarId } = request.query as {
@@ -18,8 +15,7 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       calendarId?: string;
     };
 
-    // Build where conditions dynamically
-    const conditions: (ReturnType<typeof eq> | ReturnType<typeof and> | ReturnType<typeof gte> | ReturnType<typeof lte>)[] = [
+    const conditions: ReturnType<typeof eq>[] = [
       eq(events.userId, user.id),
       isNull(events.deletedAt),
     ];
@@ -29,11 +25,11 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
     }
 
     if (start) {
-      conditions.push(gte(events.endAt, new Date(start)));
+      conditions.push(gte(events.endAt, new Date(start)) as ReturnType<typeof eq>);
     }
 
     if (end) {
-      conditions.push(lte(events.startAt, new Date(end)));
+      conditions.push(lte(events.startAt, new Date(end)) as ReturnType<typeof eq>);
     }
 
     const results = await db
@@ -56,7 +52,6 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
     reply.send({ events: results });
   });
 
-  // Create event
   fastify.post('/api/v1/events', async (request, reply) => {
     const user = (request as AuthenticatedRequest).user;
     const { calendarId, title, startAt, endAt, description, attendees } = request.body as {
@@ -68,7 +63,6 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       attendees?: string[];
     };
 
-    // Validate calendar belongs to user via account
     const calendarWithAccount = await db
       .select({
         calendar: calendars,
@@ -88,9 +82,8 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       return;
     }
 
-    const { calendar, account } = calendarWithAccount[0];
+    const { calendar } = calendarWithAccount[0];
 
-    // Create event in database
     const [newEvent] = await db
       .insert(events)
       .values({
@@ -99,29 +92,21 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
         title,
         startAt: new Date(startAt),
         endAt: new Date(endAt),
-        providerEventId: `local-${Date.now()}`, // Temporary ID
+        providerEventId: `local-${Date.now()}`,
       })
       .returning();
 
-    // Queue write-back to Google Calendar
     await queueEventWrite({
       type: 'create',
       accountId: calendar.accountId,
       calendarId,
       eventId: newEvent.id,
-      eventData: {
-        title,
-        startAt,
-        endAt,
-        description,
-        attendees,
-      },
+      eventData: { title, startAt, endAt, description, attendees },
     });
 
     reply.status(201).send(newEvent);
   });
 
-  // Update event
   fastify.patch('/api/v1/events/:id', async (request, reply) => {
     const user = (request as AuthenticatedRequest).user;
     const { id } = request.params as { id: string };
@@ -142,10 +127,7 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       .from(events)
       .innerJoin(calendars, eq(events.calendarId, calendars.id))
       .innerJoin(calendarAccounts, eq(calendars.accountId, calendarAccounts.id))
-      .where(and(
-        eq(events.id, id),
-        eq(events.userId, user.id)
-      ))
+      .where(and(eq(events.id, id), eq(events.userId, user.id)))
       .limit(1);
 
     if (eventWithCalendar.length === 0) {
@@ -153,20 +135,15 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       return;
     }
 
-    const { event, calendar, account } = eventWithCalendar[0];
+    const { event, calendar } = eventWithCalendar[0];
 
-    // Update in database
     const updates: Partial<typeof events.$inferInsert> = {};
     if (title !== undefined) updates.title = title;
     if (startAt !== undefined) updates.startAt = new Date(startAt);
     if (endAt !== undefined) updates.endAt = new Date(endAt);
 
-    await db
-      .update(events)
-      .set(updates)
-      .where(eq(events.id, id));
+    await db.update(events).set(updates).where(eq(events.id, id));
 
-    // Queue write-back to Google Calendar
     await queueEventWrite({
       type: 'update',
       accountId: calendar.accountId,
@@ -184,7 +161,6 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
     reply.send({ success: true });
   });
 
-  // Delete event
   fastify.delete('/api/v1/events/:id', async (request, reply) => {
     const user = (request as AuthenticatedRequest).user;
     const { id } = request.params as { id: string };
@@ -198,10 +174,7 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
       .from(events)
       .innerJoin(calendars, eq(events.calendarId, calendars.id))
       .innerJoin(calendarAccounts, eq(calendars.accountId, calendarAccounts.id))
-      .where(and(
-        eq(events.id, id),
-        eq(events.userId, user.id)
-      ))
+      .where(and(eq(events.id, id), eq(events.userId, user.id)))
       .limit(1);
 
     if (eventWithCalendar.length === 0) {
@@ -211,13 +184,8 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
 
     const { event, calendar } = eventWithCalendar[0];
 
-    // Soft delete in database
-    await db
-      .update(events)
-      .set({ deletedAt: new Date() })
-      .where(eq(events.id, id));
+    await db.update(events).set({ deletedAt: new Date() }).where(eq(events.id, id));
 
-    // Queue write-back to Google Calendar
     await queueEventWrite({
       type: 'delete',
       accountId: calendar.accountId,
@@ -228,79 +196,3 @@ export async function eventsRoutes(fastify: FastifyInstance): Promise<void> {
     reply.send({ success: true });
   });
 }
-=======
-import { Router } from 'express'
-import { z } from 'zod'
-import { randomUUID } from 'crypto'
-import { requireAuth } from '../middleware/auth'
-
-export interface StoredEvent {
-  id: string
-  title: string
-  startAt: string
-  endAt: string
-  calendarId: string
-  deletedAt?: string
-}
-
-export const eventsStore: StoredEvent[] = []
-
-const createEventSchema = z.object({
-  title: z.string().min(1),
-  startAt: z.string().min(1),
-  endAt: z.string().min(1),
-  calendarId: z.string().uuid()
-})
-
-const updateEventSchema = z.object({
-  title: z.string().min(1).optional(),
-  startAt: z.string().optional(),
-  endAt: z.string().optional()
-})
-
-const router = Router()
-
-router.get('/', (req, res) => {
-  const { calendarId } = req.query
-  const active = eventsStore.filter(e => !e.deletedAt)
-  res.json(calendarId ? active.filter(e => e.calendarId === calendarId) : active)
-})
-
-router.post('/', (req, res) => {
-  const result = createEventSchema.safeParse(req.body)
-  if (!result.success) {
-    res.status(400).json({ error: 'Validation failed', issues: result.error.issues })
-    return
-  }
-  const event: StoredEvent = { id: randomUUID(), ...result.data }
-  eventsStore.push(event)
-  res.status(201).json(event)
-})
-
-router.patch('/:id', requireAuth, (req, res) => {
-  const event = eventsStore.find(e => e.id === req.params['id'] && !e.deletedAt)
-  if (!event) {
-    res.status(404).json({ error: 'Not found' })
-    return
-  }
-  const result = updateEventSchema.safeParse(req.body)
-  if (!result.success) {
-    res.status(400).json({ error: 'Validation failed', issues: result.error.issues })
-    return
-  }
-  Object.assign(event, result.data)
-  res.json(event)
-})
-
-router.delete('/:id', (req, res) => {
-  const event = eventsStore.find(e => e.id === req.params['id'])
-  if (!event) {
-    res.status(404).json({ error: 'Not found' })
-    return
-  }
-  event.deletedAt = new Date().toISOString()
-  res.json({ success: true })
-})
-
-export default router
->>>>>>> origin/blocks/jus-29-test-scaffolding-vitest-unit-tests-and-playwright-e2e-smoke
