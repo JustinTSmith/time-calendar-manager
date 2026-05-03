@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { isWithinInterval, startOfDay, endOfDay } from 'date-fns';
-import { MOCK_EVENTS } from '@/data/mockEvents';
+import { useCalendarStore } from '@/store/calendarStore';
 import type { CalendarEvent } from '@/types/calendar';
 
 export function useWeekEvents(
@@ -8,10 +8,12 @@ export function useWeekEvents(
   weekEnd: Date,
   visibleCalendarIds: Set<string>,
 ): { timedEvents: CalendarEvent[]; allDayEvents: CalendarEvent[] } {
+  const events = useCalendarStore((state) => state.events);
+  
   return useMemo(() => {
     const interval = { start: startOfDay(weekStart), end: endOfDay(weekEnd) };
 
-    const inWeek = MOCK_EVENTS.filter(
+    const inWeek = events.filter(
       (e) =>
         visibleCalendarIds.has(e.calendarId) &&
         isWithinInterval(e.startAt, interval),
@@ -21,5 +23,5 @@ export function useWeekEvents(
       timedEvents: inWeek.filter((e) => !e.isAllDay),
       allDayEvents: inWeek.filter((e) => e.isAllDay),
     };
-  }, [weekStart, weekEnd, visibleCalendarIds]);
+  }, [events, weekStart, weekEnd, visibleCalendarIds]);
 }

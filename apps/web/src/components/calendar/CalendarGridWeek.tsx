@@ -9,18 +9,35 @@ import { ViewToggle } from './ViewToggle';
 import { WeekHeader } from './WeekHeader';
 import { AllDayZone } from './AllDayZone';
 import { ScrollableGrid } from './ScrollableGrid';
+import { EventQuickCreate } from './EventQuickCreate';
+import { EventModal } from './EventModal';
 
 const TODAY = new Date();
 
 export function CalendarGridWeek() {
-  const { view, currentDate, visibleCalendarIds, setView, goToPrevWeek, goToNextWeek, goToToday } =
-    useCalendarStore();
+  const {
+    view,
+    currentDate,
+    visibleCalendarIds,
+    setView,
+    goToPrevWeek,
+    goToNextWeek,
+    goToToday,
+    events,
+    selectedEventId,
+    draftEvent,
+  } = useCalendarStore();
 
   const weekStart = useMemo(() => getWeekStart(currentDate), [currentDate]);
   const weekEnd = useMemo(() => getWeekEnd(currentDate), [currentDate]);
   const days = useMemo(() => getWeekDays(currentDate), [currentDate]);
 
   const { timedEvents, allDayEvents } = useWeekEvents(weekStart, weekEnd, visibleCalendarIds);
+
+  // Get the event being edited (if any)
+  const editingEvent = selectedEventId
+    ? events.find((e) => e.id === selectedEventId) || null
+    : null;
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-white">
@@ -43,6 +60,12 @@ export function CalendarGridWeek() {
 
       {/* Scrollable timed grid */}
       <ScrollableGrid days={days} timedEvents={timedEvents} today={TODAY} />
+
+      {/* Quick-create popover */}
+      <EventQuickCreate />
+
+      {/* Full event modal */}
+      <EventModal event={editingEvent} draftEvent={draftEvent} />
     </div>
   );
 }
