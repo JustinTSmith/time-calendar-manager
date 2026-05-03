@@ -20,6 +20,7 @@ export const users = pgTable(
   {
     id: tableId(),
     email: varchar('email', { length: 320 }).notNull(),
+    passwordHash: text('password_hash'),
     name: text('name').notNull(),
     timezone: varchar('timezone', { length: 100 }).notNull().default('UTC'),
     workingHours: jsonb('working_hours').notNull().default(sql`'{}'::jsonb`),

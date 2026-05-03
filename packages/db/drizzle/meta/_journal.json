@@ -15,6 +15,13 @@
       "when": 1746072000000,
       "tag": "0001_add_sync_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777600605971,
+      "tag": "0002_naive_marvel_boy",
+      "breakpoints": true
     }
   ]
 }
