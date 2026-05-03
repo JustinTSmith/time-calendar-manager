@@ -42,10 +42,12 @@ export const calendarAccounts = pgTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     provider: varchar('provider', { length: 50 }).notNull(),
+    providerAccountId: text('provider_account_id'),
     accessTokenEncrypted: text('access_token_encrypted').notNull(),
     refreshTokenEncrypted: text('refresh_token_encrypted').notNull(),
     syncCursor: text('sync_cursor'),
     status: varchar('status', { length: 50 }).notNull().default('active'),
+    lastSyncAt: timestamp('last_sync_at', { withTimezone: true }),
     createdAt,
   },
   (table) => [index('calendar_accounts_user_id_idx').on(table.userId)],
@@ -63,6 +65,10 @@ export const calendars = pgTable(
     color: varchar('color', { length: 20 }),
     isPrimary: boolean('is_primary').notNull().default(false),
     isVisible: boolean('is_visible').notNull().default(true),
+    // Webhook channel info for push notifications
+    channelId: text('channel_id'),
+    channelExpiration: timestamp('channel_expiration', { withTimezone: true }),
+    resourceId: text('resource_id'),
     createdAt,
   },
   (table) => [
