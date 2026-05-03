@@ -147,6 +147,7 @@ export const tasks = pgTable(
     parentTaskId: uuid('parent_task_id'),
     source: varchar('source', { length: 50 }).notNull().default('manual'),
     title: text('title').notNull(),
+    notes: text('notes'),
     dueDate: timestamp('due_date', { withTimezone: true }),
     durationMinutes: integer('duration_minutes').notNull().default(30),
     priority: integer('priority').notNull().default(3),
