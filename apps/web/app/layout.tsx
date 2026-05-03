@@ -1,27 +1,29 @@
-import type { Metadata } from 'next';
-import { QueryProvider } from '@/components/providers/QueryProvider';
-import { SocketProvider } from '@/components/providers/SocketProvider';
-import './globals.css';
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Providers } from '@/components/providers/Providers'
+import { Toaster } from '@/components/ui/toaster'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Time Calendar Manager',
-  description: 'Manage your calendar and tasks in real-time',
-};
+  description: 'Smart calendar and task management',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body>
-        <QueryProvider>
-          <SocketProvider>
-            {children}
-          </SocketProvider>
-        </QueryProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <Providers>
+          {children}
+          <Toaster />
+        </Providers>
       </body>
     </html>
-  );
+  )
 }
