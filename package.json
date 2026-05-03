@@ -5,6 +5,9 @@
   "scripts": {
     "build": "turbo run build",
     "check": "turbo run check",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
     "db:generate": "pnpm --filter @time-calendar-manager/db db:generate",
     "db:migrate": "pnpm --filter @time-calendar-manager/db db:migrate",
     "db:studio": "pnpm --filter @time-calendar-manager/db db:studio"

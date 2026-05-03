@@ -8,6 +8,17 @@
     "check": {
       "dependsOn": ["^check"],
       "outputs": []
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "lint": {},
+    "db:migrate": {
+      "cache": false
     }
   }
 }
